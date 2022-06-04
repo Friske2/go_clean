@@ -1,0 +1,19 @@
+version: "2.3"
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: dev_my_sql
+    command: mysqld --user=root
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 3306:3306
+    entrypoint:
+      - MYSQL_DATABASE=todolist
+      - MYSQL_USER=sa
+      - MYSQL_PASSWORD=P@ssw0rd
+      - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: ["CMD","mysqladmin","ping","-h","localhost"]
+      timeout: 5s
+      retries: 10
